@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "lista.h"
 
 typedef struct celula Celula;
 
 struct celula{
     Celula* prox;
+    Celula* ant;
     int num;
 };
 
@@ -13,6 +15,7 @@ struct lista{
     Celula* prim;
     Celula* ult;
 };
+
 
 // inicializa a lista vazia 
 Lista* inicLista(){
@@ -22,56 +25,62 @@ Lista* inicLista(){
     return lista;
 }
 
-// insere aluno na última posição da lista 
-Lista* insere(Lista* lista, int index){
+// insere na última posição da lista 
+Lista* insere(Lista* lista, int num){
     Celula* nova = (Celula*) malloc(sizeof(Celula));
 
-    nova->num = index;
+    nova->num = num;
     nova->prox = NULL;
-    
-    if(lista->prim == NULL) lista->prim = nova;
-    else lista->ult->prox = nova; 
-    
-    lista->ult = nova;
 
+    // se for o primeiro elemento a ser adicionado 
+    if(lista->prim == NULL){
+        lista->prim = nova;
+        nova->ant = NULL;
+
+    }else{
+        lista->ult->prox = nova;
+        nova->ant = lista->ult;
+    }
+
+    lista->ult = nova;
     return lista;
 }
 
-int retira(Lista* lista, int index){
+int retira(Lista* lista, int m, int ult){
     Celula* p = lista->prim;
-    Celula* ant = NULL;
+        
+        for(int i=1; i<m+ult; i++){
+            if (p->prox == NULL) p = lista->prim;
+            else p = p->prox;
+        }
 
-    //for(int i=0; i<index-1; i++){
-      //  p = p->prox;
+        printf("elemento a ser retirado: %d\n", p->num);
+        printf("%d\n", m+ult);
 
-    //}
             //  o primeiro da lista 
-            if(p == lista->prim){
+            if(p == lista->prim && p->ant == NULL){
                 lista->prim = p->prox;
+                p->prox->ant = NULL;
                 free(p);
-                return 1;
+                return m+ult;
             
             // o último da lista 
-            }else if(p->prox == NULL && ant!=NULL){
-                lista->ult = ant;
-                ant->prox = NULL;
+            }else if(p->prox == NULL){
+                lista->ult = p->ant;
+                p->ant->prox = NULL;
                 free(p);
-                return 1;
+                return m+ult;
 
-            //  no meio da lista
+            // se o aluno estiver no meio da lista
             }else{
-                ant->prox = p->prox;
+                p->ant->prox = p->prox;
+                p->prox->ant = p->ant;
                 free(p);
-                return 1;
+                return m+ult;
             }
-    
+        
 
-        ant = p;
-        p = p->prox;
-
-    
-
-    return 0;
+    return -1;
 }
 
 
@@ -92,5 +101,3 @@ void liberaLista(Lista* lista){
 int getElemento(Lista* lista){
     return lista->prim->num;
 }
-
-

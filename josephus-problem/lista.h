@@ -6,13 +6,12 @@ typedef struct lista Lista;
 // inicializa a lista vazia 
 Lista* inicLista();
 
-int getElemento(Lista* lista);
-
 Lista* insere(Lista* lista, int index);
 
-int retira(Lista* lista, int index);
+int retira(Lista* lista, int m, int ult);
 
 // liberação da memória alocada para a lista 
 void liberaLista(Lista* lista);
 
+int getElemento(Lista* lista);
 #endif

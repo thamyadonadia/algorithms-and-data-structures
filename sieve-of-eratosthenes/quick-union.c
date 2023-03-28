@@ -11,11 +11,6 @@ void init(int size, int id[], int sz[]){
     }
 }
 
-/* 
-ao inves de ter um outro for iterando o fator: ex com i=2
-
-*/
-
 void findMultiples(int size, int id[], int sz[]){
     int product = 0;
 

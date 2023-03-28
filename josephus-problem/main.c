@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "array.h"
+#include "problem.h"
 
 int main(){
     int n, m; 
